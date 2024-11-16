@@ -1,47 +1,29 @@
 package com.example.audiovideosample;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.MediaController;
-import android.widget.VideoView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
-    MediaPlayer mediaPlayer;
-    Button playButton,pauseButton;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-         playButton = findViewById(R.id.button);
-         pauseButton = findViewById(R.id.button2);
-         mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.audio);
 
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("","Tapped play button");
-                mediaPlayer.start();
-            }
-        });
+        // Initialize WebView properly
+        webView = findViewById(R.id.webView); // Fix: You need to initialize the WebView with findViewById
 
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("","Tapped pause button");
-                mediaPlayer.pause();
-            }
-        });
+        // Configure WebView settings for optimal performance
+        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript if required by YouTube
+        webView.getSettings().setDomStorageEnabled(true); // Enable DOM storage
+        webView.setWebViewClient(new WebViewClient()); // Ensure links open within the WebView
+        webView.loadUrl("https://youtube.com/"); // Load the URL
     }
+
 }
