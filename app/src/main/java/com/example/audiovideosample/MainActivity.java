@@ -1,6 +1,10 @@
 package com.example.audiovideosample;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -12,27 +16,32 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    MediaPlayer mediaPlayer;
+    Button playButton,pauseButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+         playButton = findViewById(R.id.button);
+         pauseButton = findViewById(R.id.button2);
+         mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.audio);
 
-        // Find the VideoView by ID
-        VideoView vView = findViewById(R.id.videoView);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("","Tapped play button");
+                mediaPlayer.start();
+            }
+        });
 
-        // Correct way to load the video from the raw folder
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video;
-        vView.setVideoPath(videoPath);
-
-        // Set up a media controller to handle play/pause actions
-        MediaController mediaController = new MediaController(MainActivity.this);
-        mediaController.setAnchorView(vView);
-
-        // Set the media controller to the VideoView
-        vView.setMediaController(mediaController);
-
-        // Start playing the video
-        vView.start();
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("","Tapped pause button");
+                mediaPlayer.pause();
+            }
+        });
     }
 }
